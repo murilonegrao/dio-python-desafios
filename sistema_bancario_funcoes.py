@@ -8,7 +8,7 @@ def menu():
     [ 2 ] Sacar
     [ 3 ] Extrato
     [ 4 ] Nova conta
-    [ 5 ] Listar contatos
+    [ 5 ] Listar contas
     [ 6 ] Novo usuário
     [ 7 ] Sair
     '''
@@ -44,7 +44,7 @@ def depositar(saldo, valor, extrato, /):
         saldo += valor
         extrato += f'Depósito de R${valor:.2f}\n'
     else:
-        print(f'\033[1;41mOperação inválida. Depósito não efetuado\033[m')
+        print('\033[1;41mOperação inválida. Depósito não efetuado\033[m')
     return saldo, extrato
 
 
