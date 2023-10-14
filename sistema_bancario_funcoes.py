@@ -55,17 +55,49 @@ def exibir_extrato(saldo, /, *, extrato):
     print('*'*30)
 
 
-def usuario():
-    nome = 
-    data_nascimento = 
-    cpf = único
-    endereco = (logradouro, bairro, cidade/sigla_estado)
+def criar_usuario(usuarios):
+    cpf = input('Digite o CPF (somente números): ')
+    usuario = filtrar_usuario(cpf, usuarios)
+
+    if usuario:
+        print('\033[1;43mUsuário já cadastrado\033[m')
+        return
+
+    nome = input('Digite o nome completo: ')
+    data_nascimento = input('Informe a data de nascimento (dd-mm-aaaa): ')
+    endereco = input('Informe o endereço com (rua, número, bairro, cidade/sigla do Estaso): ')
+
+    usuarios.append({'Nome': nome, 'Data de Nascimento': data_nascimento, 'CPF': cpf, 'Endereço': endereco})
+
+    print('\033[1;42mUsuário cadastrado com sucesso!\033[m')
 
 
-def conta_corrente():
-    agencia = '0001'
-    numero_conta = sequencial, iniciando em '0001'
+def filtrar_usuario(cpf, usuarios):
+    usuarios_filtrados = [usuario for usuario in usuarios if usuario['CPF'] == cpf]
+    return usuarios_filtrados [0] if usuarios_filtrados else None
+
+
+def criar_conta_corrente(agencia, numero_conta, usuarios):
+    cpf = input('Digite o CPF do titular: ')
+    usuario = filtrar_usuario(cpf, usuarios)
+
+    if usuario:
+        print('\033[1;42m Conta criada com sucesso!!!\033[m')
+        return {'Agência': agencia, 'Conta Corrente': numero_conta, 'Cliente': usuario}
     
+    print('\033[1;41mUsuário não encontrado, crie um usuário primeiro!!!\033[m')
+
+
+def listar_contas(contas):
+    for conta in contas:
+        linha = f'''\
+            Agência:\t{conta['Agência']}
+            C/C:\t\t{conta['Conta Corrente']}
+            Titular\t{conta['Cliente']['Nome']}
+        '''
+        print('*'*80)
+        print(textwrap.dedent(linha))
+
 
 def main():
     LIMITE_SAQUES = 3
@@ -75,6 +107,8 @@ def main():
     limite = 500
     extrato = ''
     numero_saques = 0
+    usuarios = []
+    contas = []
     
     while True:
 
@@ -103,6 +137,19 @@ def main():
             exibir_extrato(saldo, extrato=extrato)
 
         elif operacao == '4':
+            numero_conta = len(contas) + 1
+            conta = criar_conta_corrente(AGENCIA, numero_conta, usuarios)
+
+            if conta:
+                contas.append(conta)
+
+        elif operacao == '5':
+            listar_contas(contas)
+
+        elif operacao == '6':
+            criar_usuario(usuarios)
+
+        elif operacao == '7':
             break
 
         
