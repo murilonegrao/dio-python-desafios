@@ -3,7 +3,7 @@ import textwrap
 from datetime import datetime
 
 
-class Cliente:
+class Usuario:
     def __init__(self, endereco):
         self.endereco = endereco
         self.contas = []
@@ -15,7 +15,7 @@ class Cliente:
         self.contas.append(conta)
 
 
-class PessoaFisica(Cliente):
+class PessoaFisica(Usuario):
     def __init__(self, nome, data_nascimento, cpf, endereco):
         super().__init__(endereco)
         self.nome = nome
@@ -279,6 +279,7 @@ def filtrar_usuario(cpf, usuarios):
 def recuperar_conta_usuario(usuario):
     if not usuario.contas:
         print('\n\033[1;43mO cliente não possui conta!!!\033[m')
+        return
 
     return usuario.contas[0]
 

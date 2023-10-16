@@ -23,7 +23,6 @@ class PessoaFisica(Cliente):
         self.cpf = cpf
 
 
-
 class Conta:
     def __init__(self, numero, usuario):
         self._saldo = 0
