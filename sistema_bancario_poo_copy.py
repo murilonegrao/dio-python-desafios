@@ -109,11 +109,11 @@ class ContaCorrente(Conta):
         return False
     
     def __str__(self):
-        return f'''\
-            Agência: \t{self.agencia}
+        return f"""\
+            Agência:\t{self.agencia}
             C/C:\t\t{self.numero}
-            Titular\t{self.usuario.nome}
-        '''
+            Titular:\t{self.usuario.nome}
+        """
 
 
 class Historico:
