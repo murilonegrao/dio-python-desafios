@@ -189,22 +189,17 @@ def menu():
     return input(textwrap.dedent(menu))
 
 
-def sacar(usuarios):
-    cpf = input('Informe o CPF do cliente: ')
-    usuario = filtrar_usuario(cpf, usuarios)
+def filtrar_usuario(cpf, usuarios):
+    usuarios_filtrados = [usuario for usuario in usuarios if usuario.cpf == cpf]
+    return usuarios_filtrados [0] if usuarios_filtrados else None
 
-    if not usuario:
-        print('\n\033[1;43mCliente não encontrado na base de dados!!\033[m')
+
+def recuperar_conta_usuario(usuario):
+    if not usuario.contas:
+        print('\n\033[1;43mO cliente não possui conta!!!\033[m')
         return
 
-    valor = float(input('Informe o valor do saque: '))
-    transacao = Saque(valor)
-
-    conta = recuperar_conta_usuario(usuario)
-    if not conta:
-        return
-    
-    usuario.realizar_transacao(conta, transacao)
+    return usuario.contas[0]
 
 
 def depositar(usuarios):
@@ -223,6 +218,25 @@ def depositar(usuarios):
         return
     
     usuario.realizar_transacao(conta, transacao)
+
+
+def sacar(usuarios):
+    cpf = input('Informe o CPF do cliente: ')
+    usuario = filtrar_usuario(cpf, usuarios)
+
+    if not usuario:
+        print('\n\033[1;43mCliente não encontrado na base de dados!!\033[m')
+        return
+
+    valor = float(input('Informe o valor do saque: '))
+    transacao = Saque(valor)
+
+    conta = recuperar_conta_usuario(usuario)
+    if not conta:
+        return
+    
+    usuario.realizar_transacao(conta, transacao)
+
 
 
 def exibir_extrato(usuarios):
@@ -270,18 +284,6 @@ def criar_usuario(usuarios):
     usuarios.append(usuario)
 
     print('\033[1;42mUsuário cadastrado com sucesso!\033[m')
-
-
-def filtrar_usuario(cpf, usuarios):
-    usuarios_filtrados = [usuario for usuario in usuarios if usuario.cpf == cpf]
-    return usuarios_filtrados [0] if usuarios_filtrados else None
-
-def recuperar_conta_usuario(usuario):
-    if not usuario.contas:
-        print('\n\033[1;43mO cliente não possui conta!!!\033[m')
-        return
-
-    return usuario.contas[0]
 
 
 def criar_conta_corrente(numero_conta, usuarios, contas):
